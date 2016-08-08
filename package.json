@@ -1,5 +1,5 @@
 {
-  "name": "innowatio/iwwa-lambda-answers-rds",
+  "name": "iwwa-lambda-answers-rds",
   "version": "1.0.0",
   "description": "Save iwapp answers on Postgres",
   "main": "src/index.js",
