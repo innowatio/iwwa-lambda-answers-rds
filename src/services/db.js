@@ -20,7 +20,8 @@ export async function insertQuestionnaire (userId, meterId, answerId, questionId
     return db.query(`
         INSERT INTO questionnaire
             (user_app_id, meter_id, answer_id, question_id, date_answered)
-            VALUES ($1, $2, $3, $4, $5)`,
+            VALUES ($1, $2, $3, $4, $5)
+            ON CONFLICT DO NOTHING`,
         userId, meterId, answerId, questionId, date);
 }
 
@@ -29,7 +30,10 @@ export async function insertQuestionnaireQuestion (id, questionCategory, questio
     return db.query(`
         INSERT INTO question
             (id, question_category, question_text)
-            VALUES ($1, $2, $3)`,
+            VALUES ($1, $2, $3)
+            ON CONFLICT (id) DO UPDATE SET
+                question_category = EXCLUDED.question_category,
+                question_text = EXCLUDED.question_text`,
         id, questionCategory, questionText);
 }
 
@@ -39,6 +43,7 @@ export async function insertQuestionnaireAnswer (answerText) {
         INSERT INTO answer
             (answer_text)
             VALUES ($1)
+            ON CONFLICT DO NOTHING
             RETURNING id`,
         answerText);
 }
@@ -48,7 +53,8 @@ export async function insertSurvey (userId, answerId, questionId, date) {
     return db.query(`
         INSERT INTO survey
             (user_app_id, survey_answer_id, survey_question_id, date_answered)
-            VALUES ($1, $2, $3, $4)`,
+            VALUES ($1, $2, $3, $4)
+            ON CONFLICT DO NOTHING`,
         userId, answerId, questionId, date);
 }
 
@@ -57,7 +63,10 @@ export async function insertSurveyQuestion (id, questionCategory, questionText) 
     return db.query(`
         INSERT INTO survey_question
             (id, question_category, question_text)
-            VALUES ($1, $2, $3)`,
+            VALUES ($1, $2, $3)
+            ON CONFLICT (id) DO UPDATE SET
+                question_category = EXCLUDED.question_category,
+                question_text = EXCLUDED.question_text`,
         id, questionCategory, questionText);
 }
 
@@ -67,6 +76,7 @@ export async function insertSurveyAnswer (answerText) {
         INSERT INTO survey_answer
             (answer_text)
             VALUES ($1)
+            ON CONFLICT DO NOTHING
             RETURNING id`,
         answerText);
 }
