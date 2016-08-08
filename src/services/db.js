@@ -15,14 +15,14 @@ export function getClient () {
     return db;
 }
 
-export async function insertQuestionnaire (userId, meterId, answerId, questionId, date) {
+export async function insertQuestionnaire (userId, siteId, answerId, questionId, date) {
     const db = await getClient();
     return db.query(`
         INSERT INTO questionnaire
             (user_app_id, meter_id, answer_id, question_id, date_answered)
             VALUES ($1, $2, $3, $4, $5)
             ON CONFLICT DO NOTHING`,
-        userId, meterId, answerId, questionId, date);
+        userId, siteId, answerId, questionId, date);
 }
 
 export async function insertQuestionnaireQuestion (id, questionCategory, questionText) {
@@ -79,4 +79,18 @@ export async function insertSurveyAnswer (answerText) {
             ON CONFLICT DO NOTHING
             RETURNING id`,
         answerText);
+}
+
+export async function findUser (userId) {
+    const db = await getClient();
+    return db.rows(`
+        SELECT * FROM user_app WHERE id = $1`,
+        userId);
+}
+
+export async function findSite (siteId) {
+    const db = await getClient();
+    return db.rows(`
+        SELECT * FROM meter WHERE id = $1`,
+        siteId);
 }
