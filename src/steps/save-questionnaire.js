@@ -19,7 +19,7 @@ export async function saveQuestionnaire (element) {
         const {id} = await insertQuestionnaireAnswer(answer.answer);
 
         // questionCategory, questionText, surveyId
-        await insertQuestionnaireQuestion(questionId, question.category, question.text);
+        await insertQuestionnaireQuestion(questionId, element.category, question.text);
 
         // userId, meterId, answerId, questionId, date
         await insertQuestionnaire(userId, meterId, id, questionId, answer.timestamp);

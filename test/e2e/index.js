@@ -111,11 +111,11 @@ describe("`answers` on RDS", () => {
             const questions = await db.rows("SELECT * FROM question ORDER BY id");
             expect(questions).to.deep.equal([{
                 id: "question1-1",
-                question_category: "category1",
+                question_category: "demographics",
                 question_text: "What's your name?"
             }, {
                 id: "question1-2",
-                question_category: "category2",
+                question_category: "demographics",
                 question_text: "How you doing?"
             }]);
 
@@ -153,7 +153,7 @@ describe("`answers` on RDS", () => {
                     element:{
                         questionId: "question1",
                         type: "questionnaire",
-                        category: "demographics",
+                        category: "category1",
                         userId: "id-user-1",
                         siteId: "my-meter-id-1",
                         visitId: "my-visit-1",
@@ -224,7 +224,7 @@ describe("`answers` on RDS", () => {
                     element:{
                         questionId: "question1",
                         type: "survey",
-                        category: "pilot",
+                        category: "category1",
                         userId: "id-user-1",
                         visitId: "my-visit-1",
                         answers: [{
@@ -270,7 +270,7 @@ describe("`answers` on RDS", () => {
                 question_text: "Question number 1?"
             }, {
                 id: "question1-2",
-                question_category: "category2",
+                question_category: "category1",
                 question_text: "Question number 2?"
             }]);
 
@@ -307,7 +307,7 @@ describe("`answers` on RDS", () => {
                     element:{
                         questionId: "question1",
                         type: "survey",
-                        category: "pilot",
+                        category: "category1",
                         userId: "id-user-1",
                         visitId: "my-visit-1",
                         answers: [{
@@ -315,8 +315,7 @@ describe("`answers` on RDS", () => {
                             timestamp: "2016-01-01T11:22:33Z",
                             answer: "One",
                             question: {
-                                text: "Question number 1?",
-                                category: "category1"
+                                text: "Question number 1?"
                             }
                         }]
                     }
