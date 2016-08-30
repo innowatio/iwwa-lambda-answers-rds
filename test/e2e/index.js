@@ -25,18 +25,18 @@ describe("`answers` on RDS", () => {
         // insert test user
         await db.query(
             `INSERT INTO user_app
-                (id, user_name)
-                VALUES ($1, $2)
+                (id, user_name, external_uid)
+                VALUES ($1, $2, $3)
                 ON CONFLICT DO NOTHING`,
-            "id-user-1", "test-user-1");
+            1, "test-user-1", "id-user-1");
 
         // insert test meter
         await db.query(
             `INSERT INTO meter
-                (id)
-                VALUES ($1)
+                (id, meter_code)
+                VALUES ($1, $2)
                 ON CONFLICT DO NOTHING`,
-            "my-meter-id-1");
+            11, "my-meter-id-1");
     });
 
     afterEach(async () => {
@@ -127,15 +127,15 @@ describe("`answers` on RDS", () => {
             const idAnswer2 = answers.find(answer => answer.answer_text === "Ok").id;
             expect(questionnaires).to.deep.equal([{
                 id: undefined,
-                user_app_id: "id-user-1",
-                meter_id: "my-meter-id-1",
+                user_app_id: 1,
+                meter_id: 11,
                 question_id: "question1-1",
                 answer_id: idAnswer1,
                 date_answered: new Date("2016-01-01T11:22:33Z")
             }, {
                 id: undefined,
-                user_app_id: "id-user-1",
-                meter_id: "my-meter-id-1",
+                user_app_id: 1,
+                meter_id: 11,
                 question_id: "question1-2",
                 answer_id: idAnswer2,
                 date_answered: new Date("2016-01-01T11:22:55Z")
@@ -145,7 +145,7 @@ describe("`answers` on RDS", () => {
         it("on conflict DO NOTHING questionnaire, UPDATE question, INSERT answer", async () => {
             const {id} = await insertQuestionnaireAnswer("Wrong answer");
             await insertQuestionnaireQuestion("question1-1", "wrongCategory", "wrongQuestion");
-            await insertQuestionnaire("id-user-1", "my-meter-id-1", id, "question1-1", "2016-01-01T11:22:33Z");
+            await insertQuestionnaire(1, 11, id, "question1-1", "2016-01-01T11:22:33Z");
 
             const event = getEventFromObject({
                 data: {
@@ -200,15 +200,15 @@ describe("`answers` on RDS", () => {
             const idAnswer2 = answers.find(answer => answer.answer_text === "Buby").id;
             expect(questionnaires).to.deep.equal([{
                 id: undefined,
-                user_app_id: "id-user-1",
-                meter_id: "my-meter-id-1",
+                user_app_id: 1,
+                meter_id: 11,
                 question_id: "question1-1",
                 answer_id: idAnswer1,
                 date_answered: new Date("2016-01-01T11:22:33Z")
             }, {
                 id: undefined,
-                user_app_id: "id-user-1",
-                meter_id: "my-meter-id-1",
+                user_app_id: 1,
+                meter_id: 11,
                 question_id: "question1-1",
                 answer_id: idAnswer2,
                 date_answered: new Date("2016-01-01T11:22:33Z")
@@ -282,13 +282,13 @@ describe("`answers` on RDS", () => {
             const idAnswer2 = answers.find(answer => answer.answer_text === "Two").id;
             expect(surveys).to.deep.equal([{
                 id: undefined,
-                user_app_id: "id-user-1",
+                user_app_id: 1,
                 survey_question_id: "question1-1",
                 survey_answer_id: idAnswer1,
                 date_answered: new Date("2016-01-01T11:22:33Z")
             }, {
                 id: undefined,
-                user_app_id: "id-user-1",
+                user_app_id: 1,
                 survey_question_id: "question1-2",
                 survey_answer_id: idAnswer2,
                 date_answered: new Date("2016-01-01T11:22:55Z")
@@ -298,7 +298,7 @@ describe("`answers` on RDS", () => {
         it("on conflict DO NOTHING questionnaire, UPDATE question, INSERT answer", async () => {
             const {id} = await insertSurveyAnswer("Wrong answer");
             await insertSurveyQuestion("question1-1", "wrongCategory", "wrongQuestion");
-            await insertSurvey("id-user-1", id, "question1-1", "2016-01-01T11:22:33Z");
+            await insertSurvey(1, id, "question1-1", "2016-01-01T11:22:33Z");
 
 
             const event = getEventFromObject({
@@ -352,13 +352,13 @@ describe("`answers` on RDS", () => {
             const idAnswer2 = answers.find(answer => answer.answer_text === "One").id;
             expect(surveys).to.deep.equal([{
                 id: undefined,
-                user_app_id: "id-user-1",
+                user_app_id: 1,
                 survey_question_id: "question1-1",
                 survey_answer_id: idAnswer1,
                 date_answered: new Date("2016-01-01T11:22:33Z")
             }, {
                 id: undefined,
-                user_app_id: "id-user-1",
+                user_app_id: 1,
                 survey_question_id: "question1-1",
                 survey_answer_id: idAnswer2,
                 date_answered: new Date("2016-01-01T11:22:33Z")

@@ -3,7 +3,7 @@ export const createTestDB = `
     --  USER
 
     CREATE TABLE IF NOT EXISTS user_app (
-        id character varying(256) NOT NULL,
+        id serial NOT NULL,
         user_name character varying(256),
         street character varying(256),
         street_number character varying(256),
@@ -13,6 +13,7 @@ export const createTestDB = `
         customer_since timestamp without time zone,
         name character varying(256),
         province_id integer,
+        external_uid character varying(256),
         CONSTRAINT user_app_pkey PRIMARY KEY (id)
     );
 
@@ -20,8 +21,8 @@ export const createTestDB = `
     -- METER
 
     CREATE TABLE IF NOT EXISTS meter (
-        id character varying(256) NOT NULL,
-        user_app_id character varying(256),
+        id serial NOT NULL,
+        user_app_id integer,
         meter_type character varying(256),
         street character varying(256),
         street_number character varying(256),
@@ -81,7 +82,7 @@ export const createTestDB = `
 
     CREATE TABLE IF NOT EXISTS survey (
         id serial NOT NULL,
-        user_app_id character varying(256),
+        user_app_id integer,
         survey_question_id character varying(256),
         survey_answer_id integer,
         date_answered timestamp with time zone
@@ -92,8 +93,8 @@ export const createTestDB = `
 
     CREATE TABLE IF NOT EXISTS questionnaire (
         id serial NOT NULL,
-        user_app_id character varying(256),
-        meter_id character varying(256),
+        user_app_id integer,
+        meter_id integer,
         question_id character varying(256),
         answer_id integer,
         date_answered timestamp with time zone,

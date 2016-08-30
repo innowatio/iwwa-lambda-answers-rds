@@ -84,13 +84,13 @@ export async function insertSurveyAnswer (answerText) {
 export async function findUser (userId) {
     const db = await getClient();
     return db.rows(`
-        SELECT * FROM user_app WHERE id = $1`,
+        SELECT * FROM user_app WHERE external_uid = $1`,
         userId);
 }
 
 export async function findSite (siteId) {
     const db = await getClient();
     return db.rows(`
-        SELECT * FROM meter WHERE id = $1`,
+        SELECT * FROM meter WHERE meter_code = $1`,
         siteId);
 }

@@ -1,14 +1,15 @@
 import {
     insertSurvey,
     insertSurveyQuestion,
-    insertSurveyAnswer
+    insertSurveyAnswer,
+    findUser
 } from "services/db";
 import {generateUniqueQuestionId} from "utils";
 import {map} from "bluebird";
 
 
 export async function saveSurvey (element) {
-    const userId = element.userId;
+    const userId = (await findUser(element.userId))[0].id;
 
     return map(element.answers, async answer => {
         const question = answer.question;
