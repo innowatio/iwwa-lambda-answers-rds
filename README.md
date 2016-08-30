@@ -15,6 +15,7 @@ The following environment variables are needed to configure the function:
 - `DB_PASS` __string__ *required*: user password
 - `DB_URL` __string__ *required*: URL of the Postgres endpoint
 - `DB_NAME` __string__ *required*: name of the Postgres DB
+- `DEBUG` __boolean__ *optional*: enable [`kinesis-router`](https://github.com/lk-architecture/kinesis-router/) logs
 
 ### Run test
 
