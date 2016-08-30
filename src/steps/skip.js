@@ -1,3 +1,4 @@
+import log from "services/logger";
 import {
     findUser,
     findSite
@@ -10,5 +11,14 @@ export async function skip (element) {
     const userOnDB = await findUser(userId);
     const siteOnDB = await findSite(siteId);
 
-    return userOnDB.length === 0 || (element.type === "questionnaire" && siteOnDB.length === 0);
+    if (userOnDB.length === 0) {
+        log.info(`User not found '${userId}'`);
+        return true;
+    }
+    if (element.type === "questionnaire" && siteOnDB.length === 0) {
+        log.info(`Site not found '${siteId}'`);
+        return true;
+    }
+
+    return false;
 }
